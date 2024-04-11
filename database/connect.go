@@ -2,10 +2,13 @@ package database
 
 import (
 	"fmt"
+
+	"github.com/levy-oliveira/todo_list/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"github.com/levy-oliveira/todo_list/models"
 )
+
+var DB *gorm.DB
 
 func Connect() {
 	var dsn = "root:123454321@/todo_list?charset=utf8mb4&parseTime=True&loc=Local"
@@ -15,6 +18,7 @@ func Connect() {
 	if err != nil {
 		panic(v)
 	}
+	DB = conn
 	conn.AutoMigrate(&models.User{})
-    fmt.Println("conexão OK!")
+	fmt.Println("conexão OK!")
 }
