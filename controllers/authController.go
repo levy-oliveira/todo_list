@@ -1,13 +1,13 @@
 package controllers
 
 import (
+	"strconv"
+	"time"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/levy-oliveira/todo_list/database"
 	"github.com/levy-oliveira/todo_list/models"
 	"golang.org/x/crypto/bcrypt"
-	"github.com/golang-jwt/jwt/v4"
-	"strconv"
-	"time"
 )
 
 func Register(c *fiber.Ctx) error {
@@ -22,7 +22,7 @@ func Register(c *fiber.Ctx) error {
 		Password: password,
 	}
 	database.DB.Create(&user)
-	return c.JSON(user)
+	return c.JSON(fiber.Map{"message": "Registro realizado com sucesso"})
 }
 
 func Login(c *fiber.Ctx) error {
@@ -50,19 +50,21 @@ func Login(c *fiber.Ctx) error {
 			"message": "Incorrect password!",
 		})
 	}
-
-	claims := jwt.RegisteredClaims{
-		ID:        strconv.Itoa(int(user.Id)),
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
+	
+	claims := jwt.MapClaims{
+		"sub": strconv.Itoa(int(user.Id)),
+		"exp": jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
 	}
+	
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token, err := jwtToken.SignedString([]byte("secret"))
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
-	return c.JSON(fiber.Map{
-		"jwt": token,
-	})
+	 // Redirecionar para GetTodosByUserID com o token no cabeçalho de autorização
+	 c.Set("Authorization", "Bearer "+ token)
+	 //return c.Redirect("/api/todo", fiber.StatusTemporaryRedirect)
+	 return c.Status(fiber.StatusTemporaryRedirect).JSON(fiber.Map{"message": "Redirecionado com sucesso"})
 }
 
 func Logout(c *fiber.Ctx) error {
@@ -70,4 +72,25 @@ func Logout(c *fiber.Ctx) error {
     return c.JSON(fiber.Map{
         "message": "success",
     })
+}
+
+func extractUserIDFromToken(tokenString string) (uint, error) {
+    token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+        return []byte("secret"), nil
+    })
+    if err != nil {
+        return 0, err
+    }
+
+    if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+        if userID, ok := claims["sub"].(string); ok {
+            id, err := strconv.Atoi(userID)
+            if err != nil {
+                return 0, err
+            }
+            return uint(id), nil
+        }
+    }
+
+    return 0, fiber.NewError(fiber.StatusUnauthorized, "Token inválido")
 }

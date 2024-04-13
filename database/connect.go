@@ -19,6 +19,6 @@ func Connect() {
 		panic(v)
 	}
 	DB = conn
-	conn.AutoMigrate(&models.User{})
+	conn.AutoMigrate(&models.User{}, &models.List{})
 	fmt.Println("conexão OK!")
 }
