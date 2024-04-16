@@ -9,9 +9,9 @@ import BotaoFiltro from '../components/BotaoFiltro';
 */
 
 const FILTER_MAP = {
-  "Ver tudo": () => true, 
-  "Tarefas Restante": (task) => !task.completed, 
-  "Tarefas Feitas": (task) => task.completed, 
+  "Ver tudo": () => true,
+  "Tarefas Restante": (task) => !task.completed,
+  "Tarefas Feitas": (task) => task.completed,
 }
 
 const FILTER_NAMES = Object.keys(FILTER_MAP);
@@ -38,22 +38,22 @@ function Home(props) {
 
   const handleSearchChange = (event) => {
     setTermoBusca(event.target.value);
-    
+
   };
 
   const filteredTasks = tasks.filter((task) =>
-  typeof task.text === 'string' && task.text.toLowerCase().startsWith(pesquisarTermo.toLowerCase())
-);
+    typeof task.text === 'string' && task.text.toLowerCase().startsWith(pesquisarTermo.toLowerCase())
+  );
 
-function editTask(id, newText, newDescription) {
-  const editedTaskList = tasks.map((task) => {
-    if (id === task.id) {
-      return { ...task, text: newText, description: newDescription };
-    }
-    return task;
-  });
-  setTasks(editedTaskList);
-}
+  function editTask(id, newText, newDescription) {
+    const editedTaskList = tasks.map((task) => {
+      if (id === task.id) {
+        return { ...task, text: newText, description: newDescription };
+      }
+      return task;
+    });
+    setTasks(editedTaskList);
+  }
 
   function editTaskDescricao(id, newDescription) {
     const editedTaskList = tasks.map((task) => {
@@ -66,27 +66,27 @@ function editTask(id, newText, newDescription) {
   }
 
   const taskList = filteredTasks
-  .filter(FILTER_MAP[filter])
-  .map((task) => (
-    <ItemLista
-      id={task.id}
-      text={task.text}
-      completed={task.completed}
-      key={task.id}
-      toggleTaskCompletada={toggleTaskCompletada}
-      deleteTask={deleteTask}
-      editTask={editTask}
-      description={task.description}
-      editTaskDescricao={editTaskDescricao}
-      filter={filter}
-    />
-  ));
+    .filter(FILTER_MAP[filter])
+    .map((task) => (
+      <ItemLista
+        id={task.id}
+        text={task.text}
+        completed={task.completed}
+        key={task.id}
+        toggleTaskCompletada={toggleTaskCompletada}
+        deleteTask={deleteTask}
+        editTask={editTask}
+        description={task.description}
+        editTaskDescricao={editTaskDescricao}
+        filter={filter}
+      />
+    ));
 
   function addTask(task) {
-      if (!task.text.trim()) {
-    alert()('Por favor, insira a tarefa.');
-    return;
-  }
+    if (!task.text.trim()) {
+      alert()('Por favor, insira a tarefa.');
+      return;
+    }
     const newTask = { id: `todo-${nanoid()}`, text: task.text, completed: false, description: task.description };
     setTasks([...tasks, newTask]);
   }
@@ -137,12 +137,12 @@ function editTask(id, newText, newDescription) {
           width: '100%',
           outline: 'none',
           fontSize: '14px',
-          marginBottom: '20px'  ,
+          marginBottom: '20px',
           fontFamily: 'Quicksand, sans-serif',
         }}
       />
-  
-      <TodoInput onSubmit={addTask}/>
+
+      <TodoInput onSubmit={addTask} />
 
       <div className='filter-botao'>
         {filterList}
@@ -155,7 +155,7 @@ function editTask(id, newText, newDescription) {
       <div className='todo-count'>
         {message}
       </div>
-      
+
     </div>
   );
 }
