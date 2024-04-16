@@ -18,9 +18,9 @@ const Register = () => {
     const submit = async (e: SyntheticEvent) => {
         e.preventDefault();
         const response = await axios.post('http://localhost:3000/api/register',{
-            name: name,
-            email: email,
-            password: password,
+            "name": name,
+            "login": email,
+            "password": password,
         });
         console.log(response);
     }
