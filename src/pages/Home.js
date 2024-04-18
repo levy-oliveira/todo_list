@@ -84,7 +84,7 @@ function Home(props) {
 
   function addTask(task) {
     if (!task.text.trim()) {
-      alert()('Por favor, insira a tarefa.');
+      alert('Por favor, insira a tarefa.');
       return;
     }
     const newTask = { id: `todo-${nanoid()}`, text: task.text, completed: false, description: task.description };
@@ -120,43 +120,52 @@ function Home(props) {
   ))
 
   return (
-    <div className="wrapper">
-      <h2>Lista de Tarefas</h2>
-
-      <input
-        type="text"
-        className="todo-input"
-        placeholder="Pesquise por tarefas"
-        value={pesquisarTermo}
-        onChange={handleSearchChange}
-        style={{
-          border: 'none',
-          borderBottom: '1px solid #999',
-          borderRadius: '4px',
-          padding: '10px',
-          width: '100%',
-          outline: 'none',
-          fontSize: '14px',
-          marginBottom: '20px',
-          fontFamily: 'Quicksand, sans-serif',
-        }}
-      />
-
-      <TodoInput onSubmit={addTask} />
-
-      <div className='filter-botao'>
+    <>
+      <div className="principal-header">
+        <img
+          src="/logo.png"
+          alt="Logotipo"
+          className="header-logo"
+        />
+        <h1 className="titulo-header" style={{ fontFamily: 'Quicksand, sans-serif', textAlign: 'center', marginTop: '20px', marginBottom: '20px', marginLeft: '50px', fontSize: '34px', fontWeight: 'bold' }}>
+          Lista de Tarefas</h1>
+      </div>
+      <div className="filtro-list">
         {filterList}
       </div>
+      <div className="wrapper">
+        <h2 className="titulo-wrapper">O que será adicionado?</h2>
 
-      <ul className='list-wrap' >
-        {taskList}
-      </ul>
+        <input
+          type="text"
+          className="todo-input"
+          placeholder="Pesquise por tarefas"
+          value={pesquisarTermo}
+          onChange={handleSearchChange}
+          style={{
+            border: 'none',
+            borderRadius: '5px',
+            padding: '10px',
+            width: '100%',
+            outline: 'none',
+            fontSize: '14px',
+            marginBottom: '5px',
+            fontFamily: 'Quicksand, sans-serif',
+          }}
+        />
 
-      <div className='todo-count'>
-        {message}
+        <TodoInput onSubmit={addTask} />
+
+        <ul className='list-wrap' >
+          {taskList}
+        </ul>
+
+        <div className='todo-count'>
+          {message}
+        </div>
+
       </div>
-
-    </div>
+    </>
   );
 }
 

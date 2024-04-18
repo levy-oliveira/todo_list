@@ -45,18 +45,19 @@ function TodoInput(props) {
         onChange={handleDescriptionChange}
       />
       <button type="submit" style={{
-        backgroundColor: '#c93939',
+        backgroundColor: '#D74C2E',
         border: 'none',
         color: 'white',
-        padding: '15px 32px',
+        padding: '0px 0px',
         textAlign: 'center',
         textDecoration: 'none',
         display: 'inline-block',
-        fontSize: '14px',
-       margin: '4px 2px',
-        cursor: 'pointer'
+        fontSize: '30px',
+        margin: '2px 2px',
+        cursor: 'pointer',
+        fontFamily: 'Quicksand',
       }}>
-      Adicionar
+      +
       </button>
     </form>
   )

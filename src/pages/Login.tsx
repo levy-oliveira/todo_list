@@ -4,16 +4,12 @@ import { Link, Navigate } from 'react-router-dom';
 
 /*ToDo:
     Adicionar feedback no login (casos de erro, uma indicação que o submit foi chamado, etc)
-        Ideias: 
-        Usar toastify para um feedback simples
-        Criar um componente customizado para isso 
-    Integrar com o backend de fato
 */
 
 //Página de login que é passada como uma função para o app.tsx
 const Login: React.FC = () => {
     //States que controlam os inputs sendo passados pelo usuário 
-    const [login, setEmail] = useState('');
+    const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
     //State que controla o redirecionamento para a home depois do login
@@ -28,10 +24,14 @@ const Login: React.FC = () => {
         try {
             // Mandar os dados para a API
             const response = await axios.post(`${apiURL}/api/login`, {
-              "login": login, // Simplificação, já que o nome da propriedade e da variável são os mesmos
-              "password": password,
+                "login": login,
+                "password": password,
             });
-    
+
+            const token = response.data.token;
+            // Armazenar o token JWT localmente (no localStorage)
+            localStorage.setItem('token', token);
+            
             // Verificação da resposta (Código 200 é bem sucedido)
             if (response.status === 200) {
               setRedirect(true);
@@ -60,7 +60,7 @@ const Login: React.FC = () => {
             <div className="form-signin">
                 <label htmlFor="email">Email</label>
                 <input id='email' type="email" className="form-control" required 
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => setLogin(e.target.value)}
                 />
             </div>
             <div className="form-signin">
