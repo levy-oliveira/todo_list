@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { nanoid } from "nanoid";
 
 function TodoInput(props) {
-  const [text, setText] = useState('');
+  const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
   function handleChange(e) {
-    setText(e.target.value);
+    setName(e.target.value);
   }
 
   const handleDescriptionChange = (e) => {
@@ -15,15 +15,15 @@ function TodoInput(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if(text.trim() === ""){
+    if(name.trim() === ""){
       alert("Por favor, insira o conteúdo a ser adicionado.");
-    } else if (text) {
+    } else if (name) {
       props.onSubmit({
         id: `todo-${nanoid()}`,
-        text: text,
+        name: name,
         description: description 
       });
-      setText("");
+      setName("");
       setDescription(""); 
     }
   }
@@ -34,7 +34,7 @@ function TodoInput(props) {
         type="text"
         className='todo-input' 
         placeholder='Digite uma tarefa para adicionar à lista'
-        value={text}
+        value={name}
         onChange={handleChange}
         />
       <input

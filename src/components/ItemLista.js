@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
 function ItemLista(props) {
   const [boolEditando, setarEdicao] = useState(false);
-  const [novoTexto, setarNovoTexto] = useState("");
-  const [novaDescricao, setarNovaDescricao] = useState("");
+  const [novoTexto, setarNovoTexto] = useState(props.text);
+  const [novaDescricao, setarNovaDescricao] = useState(props.description || "");
+
+  useEffect(() => {
+    setarNovoTexto(props.text);
+    setarNovaDescricao(props.description || "");
+  }, [props.text, props.description]);
 
   function handleMud(e) {
     setarNovoTexto(e.target.value);
   }
-
   function handleSubmit(e) {
     e.preventDefault();
     const updatedTexto = novoTexto.trim() !== "" ? novoTexto : props.text;
@@ -20,15 +24,11 @@ function ItemLista(props) {
       alert("Por favor, insira o conteúdo a ser editado.");
     } else {
       props.editTask(props.id, updatedTexto, updatedDescricao);
-      setarNovoTexto("");
-      setarNovaDescricao("");
       setarEdicao(false);
     }
   }
 
   const comecarEdicao = () => {
-    setarNovoTexto(props.text);
-    setarNovaDescricao(props.description || "");
     setarEdicao(true);
   };
 
@@ -37,6 +37,7 @@ function ItemLista(props) {
   const DESCRICAO_PREFIXO = "Descrição: ";
 
   function juntarTexto(texto, tamanhoMax, prefixo) {
+    console.log(texto)
     const textoTruncado = texto.length > tamanhoMax ? texto.slice(0, tamanhoMax - 3) + '...' : texto;
     return prefixo + textoTruncado;
   }
@@ -64,7 +65,7 @@ function ItemLista(props) {
         <button 
           style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           type="button" 
-          onClick={() => {setarNovoTexto(""); setarNovaDescricao(""); setarEdicao(false);}}>
+          onClick={() => {setarEdicao(false);}}>
           <CloseIcon style={{ color: '#D74C2E', fontSize: '24px' }} />
         </button>
         <button 
@@ -83,15 +84,15 @@ function ItemLista(props) {
           id={props.id}
           className="todo-checkbox"
           type="checkbox"
-          defaultChecked={props.completed}
+          defaultChecked={props.status}
           onChange={() => props.toggleTaskCompletada(props.id)}
         />
         <label
           className='todo-label'
           htmlFor={props.id}
-          style={{textDecoration: props.completed ? "line-through" : "none"}}
+          style={{textDecoration: props.status ? "line-through" : "none"}}
         >
-          {props.text}
+          {props.name}
         </label>
         <div className='lista-botao'>
           {/*<EditIcon 
@@ -103,7 +104,7 @@ function ItemLista(props) {
             onClick={() => props.deleteTask(props.id)}
           />*/}
           <img src="editIcon.png" alt="editar" style={{ width: '24px', heigh: '24px', cursor: "pointer"}} 
-          onClick={() => setarEdicao(true)}/>
+          onClick={comecarEdicao}/>
           <img src="delIcon.png" alt="deletar" style={{ width: '24px', heigh: '24px', cursor: "pointer"}} 
           onClick={() => props.deleteTask(props.id)}/>
         </div>

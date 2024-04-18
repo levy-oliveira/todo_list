@@ -48,7 +48,7 @@ const Login: React.FC = () => {
 
     //Redirecionar
     if(redirect){
-        return <Navigate to="/"/>;
+        return <Navigate to="/list"/>;
     }
     return (
         <div className='login-background'>
