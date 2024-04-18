@@ -9,7 +9,7 @@ import { Link, Navigate } from 'react-router-dom';
 //Página de login que é passada como uma função para o app.tsx
 const Login = () => {
     //States que controlam os inputs sendo passados pelo usuário 
-    const [email, setEmail] = useState('');
+    const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
     //State que controla o redirecionamento para a home depois do login
@@ -18,16 +18,20 @@ const Login = () => {
     //Função que dá submit no formulário para a API
     const submit = async (e: SyntheticEvent) => {
         e.preventDefault(); // <-- Não recarregar a página 
-        const apiURL = process.env.REACT_APP_API_URL || 'https://6618455d9a41b1b3dfbcac11.mockapi.io'; // Fallback para localhost se a variável de ambiente não estiver definida
+        const apiURL = process.env.REACT_APP_API_URL || 'http://localhost:3000'; // Fallback para localhost se a variável de ambiente não estiver definida
         //As variáveis de ambiente ainda tem que ser criadas, ou podemos usar a url hardcoded mesmo
 
         try {
             // Mandar os dados para a API
-            const response = await axios.post(`${apiURL}/todoapi/login`, {
-              email, // Simplificação, já que o nome da propriedade e da variável são os mesmos
-              password,
+            const response = await axios.post(`${apiURL}/api/login`, {
+                "login": login,
+                "password": password,
             });
-    
+
+            const token = response.data.token;
+            // Armazenar o token JWT localmente (no localStorage)
+            localStorage.setItem('token', token);
+            
             // Verificação da resposta (Código 200 é bem sucedido)
             if (response.status === 200) {
               setRedirect(true);
@@ -56,7 +60,7 @@ const Login = () => {
             <div className="form-signin">
                 <label htmlFor="email">Email</label>
                 <input id='email' type="email" className="form-control" required 
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => setLogin(e.target.value)}
                 />
             </div>
             <div className="form-signin">
