@@ -1,5 +1,3 @@
-import React from "react";
-
 function BotaoFiltro (props) {
   const botaoClass = props.isPressed ? "btn toggle-btn pressed" : "btn toggle-btn";
   return (

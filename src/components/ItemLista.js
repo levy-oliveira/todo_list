@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 
 function ItemLista(props) {
-
   const [boolEditando, setarEdicao] = useState(false);
   const [novoTexto, setarNovoTexto] = useState("");
   const [novaDescricao, setarNovaDescricao] = useState("");
@@ -30,7 +33,7 @@ function ItemLista(props) {
     setarNovaDescricao(props.description || "");
     setarEdicao(true);
   };
-  
+
   const PLACEHOLDER_MAX = 55;
   const TITULO_PREFIXO = "Título: ";
   const DESCRICAO_PREFIXO = "Descrição: ";
@@ -59,12 +62,17 @@ function ItemLista(props) {
           onChange={(e) => setarNovaDescricao(e.target.value)}
         />
       </div>
-      <div className="lista-botao">
-        <button className ='btn btn__primary todo-edit' style={{ marginRight: '1px', marginBottom: '22px'}} type="button" onClick={() => {setarNovoTexto("");setarNovaDescricao("");setarEdicao(false);}}>
-          Sair
+      <div className="lista-botao-edit">
+        <button 
+          style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          type="button" 
+          onClick={() => {setarNovoTexto(""); setarNovaDescricao(""); setarEdicao(false);}}>
+          <CloseIcon style={{ color: '#D74C2E', fontSize: '24px' }} />
         </button>
-        <button type="submit" style={{ marginRight: '10px', marginBottom: '22px'}} className="btn btn__primary todo-edit">
-          Confirmar
+        <button 
+          style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          type="submit">
+          <CheckIcon style={{ color: '#D74C2E', fontSize: '24px' }} />
         </button>
       </div>
     </form>
@@ -75,6 +83,7 @@ function ItemLista(props) {
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <input
           id={props.id}
+          className="todo-checkbox"
           type="checkbox"
           defaultChecked={props.completed}
           onChange={() => props.toggleTaskCompletada(props.id)}
@@ -87,19 +96,18 @@ function ItemLista(props) {
           {props.text}
         </label>
         <div className='lista-botao'>
-          <button
-            type="button"
+          {/*<EditIcon 
+            style={{ color: '#D74C2E', fontSize: '24px', cursor: 'pointer' }}
             onClick={() => setarEdicao(true)}
-            style={{ display: props.filter === 'Concluídas' ? 'none' : 'inline' }}
-          >
-            Editar
-          </button>
-          <button
-            type="button"
+          />
+          <DeleteIcon
+            style={{ color: '#D74C2E', fontSize: '24px', cursor: 'pointer' }}
             onClick={() => props.deleteTask(props.id)}
-          >
-            Deletar
-          </button>
+          />*/}
+          <img src="editIcon.png" alt="editar" style={{ width: '24px', heigh: '24px', cursor: "pointer"}} 
+          onClick={() => setarEdicao(true)}/>
+          <img src="delIcon.png" alt="deletar" style={{ width: '24px', heigh: '24px', cursor: "pointer"}} 
+          onClick={() => props.deleteTask(props.id)}/>
         </div>
       </div>
       <div className="descricao-task">
@@ -108,7 +116,7 @@ function ItemLista(props) {
     </div>
   );
 
-  return <li>{boolEditando ? editingTemplate : viewTemplate}</li>
+  return <li>{boolEditando ? editingTemplate : viewTemplate}</li>;
 }
 
 export default ItemLista;

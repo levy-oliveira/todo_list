@@ -2,11 +2,6 @@ import {useState, SyntheticEvent} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-/*ToDo:
-    Feedback para o registro
-    Tratar de casos de erro no post
-*/ 
-
 //Página de registro que é passada como uma função para o app.tsx
 const Register = () => {
     //Dados a serem passados para o registro

@@ -4,10 +4,6 @@ import { Link, Navigate } from 'react-router-dom';
 
 /*ToDo:
     Adicionar feedback no login (casos de erro, uma indicação que o submit foi chamado, etc)
-        Ideias: 
-        Usar toastify para um feedback simples
-        Criar um componente customizado para isso 
-    Integrar com o backend de fato
 */
 
 //Página de login que é passada como uma função para o app.tsx
