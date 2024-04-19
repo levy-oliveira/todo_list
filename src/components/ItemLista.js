@@ -1,34 +1,34 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
 function ItemLista(props) {
   const [boolEditando, setarEdicao] = useState(false);
-  const [novoTexto, setarNovoTexto] = useState(props.text);
-  const [novaDescricao, setarNovaDescricao] = useState(props.description || "");
-
-  useEffect(() => {
-    setarNovoTexto(props.text);
-    setarNovaDescricao(props.description || "");
-  }, [props.text, props.description]);
+  const [novoName, setarNovoName] = useState("");
+  const [novaDescricao, setarNovaDescricao] = useState("");
 
   function handleMud(e) {
-    setarNovoTexto(e.target.value);
+    setarNovoName(e.target.value);
   }
+
   function handleSubmit(e) {
     e.preventDefault();
-    const updatedTexto = novoTexto.trim() !== "" ? novoTexto : props.text;
+    const updatedName = novoName.trim() !== "" ? novoName : props.name;
     const updatedDescricao = novaDescricao.trim() !== "" ? novaDescricao : props.description;
   
-    if (updatedTexto === "" && updatedDescricao === "") {
+    if (updatedName === "" && updatedDescricao === "") {
       alert("Por favor, insira o conteúdo a ser editado.");
     } else {
-      props.editTask(props.id, updatedTexto, updatedDescricao);
+      props.editTask(props.id, updatedName, updatedDescricao);
+      setarNovoName("");
+      setarNovaDescricao("");
       setarEdicao(false);
     }
   }
 
   const comecarEdicao = () => {
+    setarNovoName(props.name);
+    setarNovaDescricao(props.description || "");
     setarEdicao(true);
   };
 
@@ -36,25 +36,24 @@ function ItemLista(props) {
   const TITULO_PREFIXO = "Título: ";
   const DESCRICAO_PREFIXO = "Descrição: ";
 
-  function juntarTexto(texto, tamanhoMax, prefixo) {
-    console.log(texto)
-    const textoTruncado = texto.length > tamanhoMax ? texto.slice(0, tamanhoMax - 3) + '...' : texto;
-    return prefixo + textoTruncado;
+  function juntarName(name, tamanhoMax, prefixo) {
+    const nameTruncado = name.length > tamanhoMax ? name.slice(0, tamanhoMax - 3) + '...' : name;
+    return prefixo + nameTruncado;
   }
   
   const editingTemplate = (
     <form className="edit-input" onSubmit={handleSubmit}>
       <div className="input-grupo">
         <input
-          placeholder={juntarTexto(props.text, PLACEHOLDER_MAX, TITULO_PREFIXO)}
+          placeholder={juntarName(props.name, PLACEHOLDER_MAX, TITULO_PREFIXO)}
           id={props.id}
           className="todo-texto"
           type="text"
-          value={novoTexto}
+          value={novoName}
           onChange={handleMud}
         />
         <input
-          placeholder={juntarTexto(props.description || "Sem descrição", PLACEHOLDER_MAX, DESCRICAO_PREFIXO)}  
+          placeholder={juntarName(props.description || "Sem descrição", PLACEHOLDER_MAX, DESCRICAO_PREFIXO)}  
           className="todo-texto"
           type="text"
           value={novaDescricao}
@@ -65,7 +64,7 @@ function ItemLista(props) {
         <button 
           style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           type="button" 
-          onClick={() => {setarEdicao(false);}}>
+          onClick={() => {setarNovoName(""); setarNovaDescricao(""); setarEdicao(false);}}>
           <CloseIcon style={{ color: '#D74C2E', fontSize: '24px' }} />
         </button>
         <button 
@@ -104,7 +103,7 @@ function ItemLista(props) {
             onClick={() => props.deleteTask(props.id)}
           />*/}
           <img src="editIcon.png" alt="editar" style={{ width: '24px', heigh: '24px', cursor: "pointer"}} 
-          onClick={comecarEdicao}/>
+          onClick={() => setarEdicao(true)}/>
           <img src="delIcon.png" alt="deletar" style={{ width: '24px', heigh: '24px', cursor: "pointer"}} 
           onClick={() => props.deleteTask(props.id)}/>
         </div>

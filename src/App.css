@@ -421,6 +421,7 @@ input:focus {
 }
 
 .list-wrap {
+  display: flex;
   list-style:none;
   flex-direction: column;
   gap: 5px;
