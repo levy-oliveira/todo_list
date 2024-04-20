@@ -32,7 +32,7 @@ const Login: React.FC = () => {
             // Armazenar o token JWT localmente (no localStorage)
             localStorage.setItem('token', token);
             const name = response.data.nome;
-            // Armazenar o token JWT localmente (no localStorage)
+            // Armazenar o nome JWT localmente (no localStorage)
             localStorage.setItem('name', name);
             
             // Verificação da resposta (Código 200 é bem sucedido)

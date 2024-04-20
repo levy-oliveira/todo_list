@@ -11,8 +11,8 @@ import axios from 'axios';
 
 const FILTER_MAP = {
   "Ver tudo": () => true, 
-  "Tarefas Restante": (task) => !task.completed, 
-  "Tarefas Feitas": (task) => task.completed, 
+  "Tarefas Restante": (task) => !task.status, 
+  "Tarefas Feitas": (task) => task.status, 
 }
 
 const FILTER_NAMES = Object.keys(FILTER_MAP);
@@ -47,10 +47,14 @@ function Home(props) {
   function toggleTaskCompletada(id) {
     const updatedTasks = tasks.map((task) => {
       if (id === task.id) {
-        // Atualize localmente a propriedade completed
+        // Atualize localmente a propriedade status
         const updatedTask = { ...task, status: !task.status };
         // Envie a requisição para atualizar no backend
-        axios.put(`http://localhost:3000/api/update/${id}`, { status: updatedTask.status }, {
+        axios.put(`http://localhost:3000/api/update/${id}`, 
+        { 
+          "status": updatedTask.status 
+        }, 
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -174,7 +178,7 @@ function Home(props) {
     <ItemLista
       id={task.id}
       name={task.name}
-      completed={task.status}
+      status={task.status}
       toggleTaskCompletada={toggleTaskCompletada}
       deleteTask={deleteTask}
       editTask={editTask}
