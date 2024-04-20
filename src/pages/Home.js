@@ -125,7 +125,7 @@ function Home(props) {
 
   function editTaskDescricao(id, newDescription) {
     // Envie a solicitação PATCH para o backend
-    axios.put(`http://localhost:3000/api/update/${id}`, { description: newDescription }, {
+    axios.put(`http://localhost:3000/api/update/${id}`, { "description": newDescription }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

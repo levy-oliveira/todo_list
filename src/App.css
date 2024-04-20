@@ -52,17 +52,6 @@ body {
   justify-content: center;
   align-items: center;
 
-    &::before{
-      content: "";
-      position: absolute;
-      width: 80%;
-      height: 80%;
-      background: linear-gradient(90deg, var(--cor3), var(--cor4));
-      border-radius: 50%;
-      left: -10%;
-      top: -20%;
-      filter: blur(90px);
-    }
     &::after{
       content: "";
       position: absolute;
@@ -107,7 +96,7 @@ body {
   }
 
   .nav-link{
-    display: block;
+    display: flex;
     text-align: left;
     font-weight: bold;
     color: #6F6D6D;
