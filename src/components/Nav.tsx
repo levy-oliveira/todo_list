@@ -12,7 +12,7 @@ const Nav = () => {
 
     //Função do log out
     const handleLogout = async () =>{
-        const apiURL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+        const apiURL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api/logout';
 
         try{
             await axios.post(`${apiURL}/api/logout`);
@@ -33,7 +33,7 @@ const Nav = () => {
                 <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNav">
                     <ul className="navbar-nav ms-auto">
                         <li className='nav-item'>
-                            <Link className='nav-link' to="/login" onClick={handleLogout}>Logout</Link>
+                            <Link className='nav-link' to="/" onClick={handleLogout}>Logout</Link>
                         </li>
                         <li className="nav-item">
                             {/* Link para a tela de login */}

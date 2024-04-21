@@ -72,6 +72,15 @@ func Login(c *fiber.Ctx) error {
 }
 
 func Logout(c *fiber.Ctx) error {
+    cookie := fiber.Cookie{
+        //Definir o valor do cookie como vazio e adicionar uma data de expiração no passado.
+        Name: "jwt",
+        Value: "",
+        //No código da função de logout, remover o cookie definindo o mesmo cookie no passado ( '-' ).
+        Expires: time.Now().Add(-time.Hour),
+        HTTPOnly: true,
+    }
+    c.Cookie(&cookie)
     //Retornar uma resposta de sucesso em formato JSON.
     return c.JSON(fiber.Map{
         "message": "success",
