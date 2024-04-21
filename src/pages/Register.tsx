@@ -1,6 +1,6 @@
 import {useState, SyntheticEvent} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 //Página de registro que é passada como uma função para o app.tsx
 const Register = () => {
@@ -11,13 +11,19 @@ const Register = () => {
 
     //Função que trata do submit do formulário
     const submit = async (e: SyntheticEvent) => {
-        e.preventDefault();
-        const response = await axios.post('http://localhost:3000/api/register',{
-            "name": name,
-            "login": email,
-            "password": password,
-        });
-        console.log(response);
+        try{
+            e.preventDefault();
+            const response = await axios.post('http://localhost:3000/api/register',{
+                "name": name,
+                "login": email,
+                "password": password,
+            });
+            toast.success("Conta registrada com sucesso!");
+            console.log(response);
+        }
+        catch(error){
+            toast.error('Não foi possivel registrar a conta');
+        }
     }
     return (
         <div className='register-background'>

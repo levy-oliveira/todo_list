@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Nav from './components/Nav';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 //Componente que contém as rotas para as páginas do site, além da barra de navegação
 //Será exportado para o index.tsx
@@ -19,6 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
+      <ToastContainer/>
     </div>
   );
 }

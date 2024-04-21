@@ -4,10 +4,6 @@ import TodoInput from '../components/TodoInput';
 import BotaoFiltro from '../components/BotaoFiltro';
 import axios from 'axios';
 
-/*ToDo:
-    Tá criando uma barra lateral quando uma task é adicionada, não sei de onde ela tá vindo
-*/
-
 const FILTER_MAP = {
   "Ver tudo": () => true, 
   "Tarefas Restante": (task) => !task.status, 

@@ -1,10 +1,7 @@
 import { useState, SyntheticEvent } from 'react';
 import axios from 'axios';
 import { Link, Navigate } from 'react-router-dom';
-
-/*ToDo:
-    Adicionar feedback no login (casos de erro, uma indicação que o submit foi chamado, etc)
-*/
+import { toast } from 'react-toastify';
 
 //Página de login que é passada como uma função para o app.tsx
 const Login: React.FC = () => {
@@ -37,13 +34,17 @@ const Login: React.FC = () => {
             
             // Verificação da resposta (Código 200 é bem sucedido)
             if (response.status === 200) {
+              toast.success("Login bem sucedido!")  
               setRedirect(true);
             } else {
+                if(response.status === 404) toast.error("Usuário não encontrado");
+                else if(response.status === 400) toast.error("Senha incorreta");      
               // Tratar de outros códigos aqui
               console.error("Login falhou com status:", response.status);
               // Idealmente, definiria um estado de erro aqui para informar ao usuário que o login falhou
             }
           } catch (error) {
+          toast.error("Erro de conexão");  
           console.error("Erro ao fazer login:", error);
           // Aqui, você também poderia definir um estado de erro para informar ao usuário sobre o problema
         }
