@@ -64,7 +64,11 @@ func Login(c *fiber.Ctx) error {
 	 // Redirecionar para GetTodosByUserID com o token no cabeçalho de autorização
 	 c.Set("Authorization", "Bearer "+ token)
 	 //return c.Redirect("/api/todo", fiber.StatusTemporaryRedirect)
-	 return c.Status(fiber.StatusTemporaryRedirect).JSON(fiber.Map{"message": "Redirecionado com sucesso"})
+	 return c.JSON(fiber.Map{
+        "token": token,
+        "message": "Login bem-sucedido",
+		"nome": user.Name,
+    })
 }
 
 func Logout(c *fiber.Ctx) error {

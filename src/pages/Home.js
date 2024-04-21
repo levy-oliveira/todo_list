@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { nanoid } from "nanoid";
 import ItemLista from '../components/ItemLista';
 import TodoInput from '../components/TodoInput';
 import BotaoFiltro from '../components/BotaoFiltro';
@@ -176,6 +175,7 @@ function Home(props) {
   .filter(FILTER_MAP[filter])
   .map((task) => (
     <ItemLista
+      key={task.id}
       id={task.id}
       name={task.name}
       status={task.status}

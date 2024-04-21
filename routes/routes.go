@@ -12,6 +12,6 @@ func Setup(app *fiber.App) {
 	app.Get("/api/todo", controllers.GetTodosByUserID)
 	app.Get("/api/todo/:name", controllers.GetTodoByName)
 	app.Post("/api/create", controllers.CreateTodo)
-	app.Post("/api/update/:id", controllers.UpdateTodoForUser)
-	app.Post("/api/delete/:id", controllers.DeleteTodoForUser)
+	app.Put("/api/update/:id", controllers.UpdateTodoForUser)
+	app.Delete("/api/delete/:id", controllers.DeleteTodoForUser)
 }

@@ -58,9 +58,9 @@ func GetTodosByUserID(c *fiber.Ctx) error {
 
     // Retornar os TODOS encontrados
     return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"success": true,
-		"data": fiber.Map{
-			"todos": todos,
+            "success": true,
+            "data": fiber.Map{
+            "todos": todos,
 		},
 	})
 }
@@ -85,9 +85,6 @@ func CreateTodo(c *fiber.Ctx) error {
         return err
     }
 
-	if todoData.User_id != userID {
-        return fiber.NewError(fiber.StatusUnauthorized, "Usuário não autorizado para atualizar este TODO")
-    }
     // Atribuir o ID do usuário ao TODO
     todoData.User_id = userID
 
@@ -142,13 +139,16 @@ func UpdateTodoForUser(c *fiber.Ctx) error {
 	if err := c.BodyParser(&updatedTodoData); err != nil {
 		return err
 	}
-
     // Atualizar a task no banco de dados com os dados do corpo da requisição
 	if err := database.DB.Model(&todoData).Updates(&updatedTodoData).Error; err != nil {
 		return err
 	}
-
+    todoData.Status = updatedTodoData.Status
+    if err := database.DB.Save(&todoData).Error; err != nil {
+        return err
+    }
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+        "completo":&updatedTodoData.Status,
 		"success": true,
 		"data": fiber.Map{
 		"todo": todoData,
