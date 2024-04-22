@@ -7,6 +7,8 @@ import (
 	"github.com/levy-oliveira/todo_list/database"
 )
 
+
+//Função para iniciar o projeto da API
 func main() {
 	database.Connect()
 	app := fiber.New()

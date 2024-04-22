@@ -10,6 +10,7 @@ import (
 
 var DB *gorm.DB
 
+//conexão com o banco de dador local
 func Connect() {
 	var dsn = "root:123454321@/todo_list?charset=utf8mb4&parseTime=True&loc=Local"
 	var v = "Não conseguiu conectar ao banco de dados"

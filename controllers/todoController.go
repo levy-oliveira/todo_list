@@ -36,6 +36,7 @@ func GetTodoByName(c *fiber.Ctx) error {
 	return c.JSON(todo)
 }
 
+//Capturar as tasks pelo ID do usuário
 func GetTodosByUserID(c *fiber.Ctx) error {
     // Extrair o token JWT do cabeçalho de autorização
     tokenString := c.Get("Authorization")
@@ -65,6 +66,8 @@ func GetTodosByUserID(c *fiber.Ctx) error {
 	})
 }
 
+
+//Criar uma nova task
 func CreateTodo(c *fiber.Ctx) error {
     // Extrair o token JWT do cabeçalho de autorização
     tokenString := c.Get("Authorization")

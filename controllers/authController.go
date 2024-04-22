@@ -10,6 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+//Registra um novo usuário
 func Register(c *fiber.Ctx) error {
 	var data map[string]string
 	if err := c.BodyParser(&data); err != nil {
@@ -25,6 +26,7 @@ func Register(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"message": "Registro realizado com sucesso"})
 }
 
+//Função de login de usuário
 func Login(c *fiber.Ctx) error {
 	//get the request parameter
 	var data map[string]string
@@ -71,6 +73,7 @@ func Login(c *fiber.Ctx) error {
     })
 }
 
+//Função de logout de usuário
 func Logout(c *fiber.Ctx) error {
     cookie := fiber.Cookie{
         //Definir o valor do cookie como vazio e adicionar uma data de expiração no passado.
@@ -87,6 +90,7 @@ func Logout(c *fiber.Ctx) error {
     })
 }
 
+//Extrair id do usuário pelo token
 func extractUserIDFromToken(tokenString string) (uint, error) {
     token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
         return []byte("secret"), nil
